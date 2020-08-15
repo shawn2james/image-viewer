@@ -1,7 +1,16 @@
+#! /media/shawn/new-volume/anaconda3/bin/python 
 import os
 import tkinter as tk
 from PIL import ImageTk,Image
 import tkinter.font
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', required=False, help= 'the images of which directory is to be displayed.')
+args = parser.parse_args()
+
+
+os.chdir(args.p) # to change directory to argument passed for '--path'
 
 # ROOT SETTINGS
 root = tk.Tk()
@@ -26,8 +35,6 @@ loading.grid(column=0, row=1, columnspan=3, ipadx=30, ipady=20)
 # ACCESSING IMAGES
 current_img_num = 0
 image_list = []
-dir_path = os.path.dirname(os.path.realpath(__file__))
-os.chdir(dir_path)
 for file in os.listdir():
     if file.lower().endswith(('.jpg','.png','.ico')):
         image_list.append(file)
@@ -58,7 +65,6 @@ def previous(image_num):
     global img_name
 
     current_img_num = image_num + 1
-    print(current_img_num)
     img_place.configure(image="")
     next_image = Image.open(image_list[image_num])
     aspect_ratio = next_image.width / next_image.height
